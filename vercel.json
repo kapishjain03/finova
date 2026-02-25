@@ -2,19 +2,19 @@
   "rewrites": [
     {
       "source": "/translate",
-      "destination": "/api"
+      "destination": "/api/translate"
     },
     {
       "source": "/ask",
-      "destination": "/api"
+      "destination": "/api/ask"
     },
     {
       "source": "/tts",
-      "destination": "/api"
+      "destination": "/api/tts"
     },
     {
       "source": "/stt",
-      "destination": "/api"
+      "destination": "/api/stt"
     }
   ]
 }

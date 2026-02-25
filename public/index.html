@@ -576,7 +576,7 @@
         // Step 1: Translate user question to English
         let englishQuestion = userText;
         if (selectedLangCode !== 'en-IN') {
-          const transRes = await fetch('/translate', {
+          const transRes = await fetch('/api/translate', {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ input: userText, source_language_code: selectedLangCode, target_language_code: 'en-IN', model: 'mayura:v1', enable_preprocessing: true })
           });
@@ -591,7 +591,7 @@
         }
 
         // Step 2: Ask LLM via OpenRouter
-        const llmRes = await fetch('/ask', {
+        const llmRes = await fetch('/api/ask', {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ question: englishQuestion, history: conversationHistory })
         });
@@ -617,7 +617,7 @@
         // Step 3: Translate answer to borrower's language
         let translatedAnswer = englishAnswer;
         if (selectedLangCode !== 'en-IN') {
-          const transRes2 = await fetch('/translate', {
+          const transRes2 = await fetch('/api/translate', {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ input: englishAnswer, source_language_code: 'en-IN', target_language_code: selectedLangCode, model: 'mayura:v1', enable_preprocessing: true })
           });
@@ -643,7 +643,7 @@
       const btn = document.getElementById('play-' + bubbleId);
       if (btn) { btn.disabled = true; btn.innerHTML = '<div class="spinner"></div>'; }
       try {
-        const res = await fetch('/tts', {
+        const res = await fetch('/api/tts', {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ inputs: [text], target_language_code: selectedLangCode, speaker: 'ritu' })
         });
@@ -711,7 +711,7 @@
         const formData = new FormData();
         formData.append('file', blob, 'recording.webm');
         formData.append('language_code', selectedLangCode);
-        const res = await fetch('/stt', { method: 'POST', body: formData });
+        const res = await fetch('/api/stt', { method: 'POST', body: formData });
         const data = await res.json();
         if (data.error) throw new Error(data.error);
         const transcript = data.transcript || data.text || '';
